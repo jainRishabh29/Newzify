@@ -1,0 +1,2 @@
+rootProject.name = "Newzify"
+include ':app'

@@ -1,15 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.AboutFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="casual"
+        android:padding="8dp"
+        android:text="@string/about"
+        android:textColor="#757575"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/tv1"
+        android:padding="8dp"
+        android:fontFamily="casual"
+        android:text="Thank You for choosing us and keep supporting."
+        android:textColor="#757575"
+        android:textSize="16sp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/tv2"
+        android:padding="8dp"
+        android:fontFamily="casual"
+        android:layout_centerInParent="true"
+        android:text="All rights reserved"
+        android:textColor="#BDBDBD"
+        android:textSize="14sp" />
+</RelativeLayout>
 
 </FrameLayout>

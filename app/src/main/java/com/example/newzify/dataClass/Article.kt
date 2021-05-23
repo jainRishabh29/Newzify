@@ -8,7 +8,7 @@ data class Article(
  val  urlToImage: String,
  val   publishedAt: String,
  val author :String,
- val sources : List<Source>
+ val sources : Source
 
 ) {
 }

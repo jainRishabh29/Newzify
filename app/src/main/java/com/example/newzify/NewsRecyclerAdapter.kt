@@ -1,24 +1,25 @@
 package com.example.newzify
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.fragment.app.FragmentTransaction
+
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.newzify.dataClass.Article
-import com.example.newzify.fragments.WebViewFragment
+
 import com.google.android.material.snackbar.Snackbar
 
 
-class NewsRecyclerAdapter(private val context: Context, private val articles: List<Article>) :
+
+class NewsRecyclerAdapter(private val context: Context, private val articles: List<Article>, private val listener: OnNewsClick) :
     RecyclerView.Adapter<NewsRecyclerAdapter.NewsViewHolder>() {
 
     //  , val sources : List<Source>
@@ -32,30 +33,9 @@ class NewsRecyclerAdapter(private val context: Context, private val articles: Li
         val article = articles[position]
         //    val source = sources[position]
         holder.autherText.text = article.author
-        //     holder.autherText.text = source.name
         holder.description.text = article.description
         holder.title.text = article.title
-        Glide.with(context).load(article.urlToImage).into(holder.newsImage)
-
-        holder.itemView.setOnClickListener {
-//            val ft = (context as AppCompatActivity).supportFragmentManager
-//            val a: FragmentTransaction = ft.beginTransaction()
-
-//           val a = supportFragmentManager.beginTransaction()
-//            supportFragmentManager.popBackStack()
-
-//            val frag = WebViewFragment()
-//            frag.arguments = Bundle().putString("url",article.url)
-//            a.replace(R.id.containerView, frag).addToBackStack("backStack")
-//            a.commit()
-
-//            val bundle = bundleOf("url" to article.url)
-//            Navigation.findNavController(it).navigate(R.id.webViewFragment,bundle)
-
-            val builder = CustomTabsIntent.Builder()
-            val customTabsIntent = builder.build()
-            customTabsIntent.launchUrl(context, Uri.parse(article.url))
-        }
+        Glide.with(context).load(article.urlToImage).fallback(ColorDrawable(Color.rgb(250,250,250))).into(holder.newsImage)
 
         holder.itemView.setOnLongClickListener {
             val publishTime: String = article.publishedAt
@@ -76,10 +56,29 @@ class NewsRecyclerAdapter(private val context: Context, private val articles: Li
     }
 
 
-    class NewsViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+   inner class NewsViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val newsImage = itemView.findViewById<ImageView>(R.id.newsImage)
         val autherText = itemView.findViewById<TextView>(R.id.authorText)
         val description = itemView.findViewById<TextView>(R.id.description)
         val title = itemView.findViewById<TextView>(R.id.newsTitle)
+
+        init {
+            itemView.setOnClickListener(this)
+          //  Log.d("batao","hii3")
+        }
+
+        override fun onClick(p0: View?) {
+            val position = adapterPosition
+            val article_inst = articles[position]
+         //   Log.d("batao","hii1")
+            listener.onItemClick(article_inst, position)
+        }
     }
+
+    interface OnNewsClick{
+
+        fun onItemClick(article:Article , position: Int)
+
+    }
+
 }

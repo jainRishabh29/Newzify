@@ -3,9 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/newsitem"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="2dp"
-    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="8dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -23,19 +26,20 @@
             android:padding="6dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textStyle="bold"
             android:text="TextView"
-            android:textColor="@color/black"
+            android:textColor="#212121"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
              />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/newsImage"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_marginTop="6dp"
+        app:shapeAppearanceOverlay="@style/circleImageView"
         android:scaleType="centerCrop"
         app:layout_constraintTop_toBottomOf="@+id/newsTitle"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,10 +51,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="6dp"
+        android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="TextView"
-        android:textColor="@color/black"
+        android:textColor="#757575"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,15 +65,62 @@
         android:id="@+id/authorText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="6dp"
+        android:paddingLeft="8dp"
         android:paddingRight="6dp"
         android:text="TextView"
-
+        android:textColor="#BDBDBD"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:id="@+id/relativeL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/authorText">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="6dp"
+                    android:padding="4dp"
+                    android:src="@drawable/heart"
+                    />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="12dp"
+                    android:padding="4dp"
+                    android:src="@drawable/chat"
+                    />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="12dp"
+                    android:padding="4dp"
+                    android:src="@drawable/share"
+                    />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="4dp"
+                android:layout_marginRight="12dp"
+                android:src="@drawable/bookmark"
+                android:layout_alignParentRight="true" />
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

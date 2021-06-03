@@ -1,10 +1,8 @@
-package com.example.newzify
+package com.example.newzify.view
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import com.example.newzify.R
 import com.example.newzify.fragments.AboutFragment
 import com.example.newzify.fragments.LicenseFragment
 import com.google.android.material.appbar.MaterialToolbar
@@ -40,12 +38,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        val inflator = menuInflater
-//        inflator.inflate(R.menu.menu, menu)
-//        return true
-//    }
-
-
 }

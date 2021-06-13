@@ -15,6 +15,7 @@ import com.example.newzify.R
 import com.example.newzify.dataClass.User
 import com.example.newzify.databinding.SignUpFragmentBinding
 import com.example.newzify.repository.AppRepo
+import com.example.newzify.viewModel.LogInSignUpViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import java.util.regex.Pattern
@@ -29,6 +30,7 @@ class SignUpFragment : Fragment() {
 //    }
     private val firebase = FirebaseAuth.getInstance()
     private var _binding: SignUpFragmentBinding? = null
+    private lateinit var viewModel : LogInSignUpViewModel
     private val binding get() = _binding!!
     private var validate: Boolean = true
 
@@ -38,7 +40,7 @@ class SignUpFragment : Fragment() {
     ): View? {
         _binding = SignUpFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
-
+        viewModel = ViewModelProvider(this).get(LogInSignUpViewModel::class.java)
         binding.signInText.setOnClickListener {
             //go to signup fragment
             findNavController().navigate(R.id.action_signUpFragment_to_logInFragment)
@@ -108,30 +110,14 @@ class SignUpFragment : Fragment() {
 
 
             if (validate) {
-                firebase.createUserWithEmailAndPassword(email, pass)
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            val user = User(email, pass, age, phone, address, bio)
-                            val ref = FirebaseDatabase
-                                .getInstance("https://newzify-bed8a-default-rtdb.asia-southeast1.firebasedatabase.app/")
-                                .getReference("Users")
-                            val u = ref.push().key
-                            Log.d("firebase", " kya y id h " + u.toString())
-                            if (u != null) {
-                                ref.child(u)
-                                    .setValue(user).addOnCompleteListener {
-                                        if (it.isSuccessful) {
-                                           findNavController().navigate(R.id.action_signUpFragment_to_mainFragment)
-                                        } else {
-                                            Log.d("firebase", "LoginrepoUserfail")
-                                        }
-                                    }
-                            }
-
-                        } else {
-                            Log.d("firebase", "Loginrepofail")
-                        }
+               viewModel.registerUser(email,pass,age,phone,address,bio)
+                viewModel.getUser().observe(viewLifecycleOwner, {
+                    if (it!=null){
+                        findNavController().navigate(R.id.action_signUpFragment_to_mainFragment)
+                    }else{
+                        Toast.makeText(context,"Sign Up failed",Toast.LENGTH_SHORT).show()
                     }
+                } )
             }
 
         }

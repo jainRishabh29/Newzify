@@ -6,17 +6,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.newzify.R
 import com.example.newzify.databinding.LogInFragmentBinding
+import com.example.newzify.viewModel.LogInSignUpViewModel
+import com.example.newzify.viewModel.MainFragmentViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 class LogInFragment : Fragment() {
 
     private val firebase = FirebaseAuth.getInstance()
     private var _binding: LogInFragmentBinding? = null
+    private lateinit var viewModel : LogInSignUpViewModel
     private val binding get() = _binding!!
     private var validate: Boolean = true
 
@@ -27,6 +31,13 @@ class LogInFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = LogInFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
+        viewModel = ViewModelProvider(this).get(LogInSignUpViewModel::class.java)
+
+//        viewModel.getIsLoggedOut().observe(viewLifecycleOwner ,{
+//            if (!it){
+//                findNavController().navigate(R.id.action_logInFragment_to_mainFragment)
+//            }
+//        })
 
         binding.SignUpText.setOnClickListener {
             //go to logIn fragment
@@ -51,16 +62,15 @@ class LogInFragment : Fragment() {
             }
 
             if (validate) {
-
-                 firebase.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
-                    if (it.isSuccessful) {
+                viewModel.loginUser(email,pass)
+                viewModel.getUser().observe(viewLifecycleOwner ,  {
+                    if (it != null){
                         findNavController().navigate(R.id.action_logInFragment_to_mainFragment)
-                    } else {
-                        Log.d("check", "appRepo failed")
-                        Log.d("fireobase", it.exception!!.message.toString())
-                        Log.d("fireobase", it.exception.toString())
                     }
-                }
+                    else{
+                        Toast.makeText(context,"Wrong Credentials",Toast.LENGTH_SHORT).show()
+                    }
+                })
 
             }
 

@@ -27,7 +27,8 @@ object AppRepo {
             userMutableData.value = firebase.currentUser
             isLoggedOut.value = false
         }else{
-            isLoggedOut.value = false
+            isLoggedOut.value = true
+            userMutableData.value = null
         }
     }
 
@@ -67,7 +68,7 @@ object AppRepo {
             }
     }
 
-    fun logIn(email: String, password: String){
+    fun logInUser(email: String, password: String){
         firebase.signInWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
                 Log.d("check", "appRepo success")
@@ -84,7 +85,7 @@ object AppRepo {
 
     fun loggedOut() {
         firebase.signOut()
-      //  userMutableData.value = null
+        userMutableData.value = null
         isLoggedOut.value = true
     }
 

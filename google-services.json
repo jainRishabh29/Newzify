@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "987741284303",
+    "project_id": "newzify-bed8a",
+    "storage_bucket": "newzify-bed8a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:987741284303:android:b543935fe9bc4aaae4d4ba",
+        "android_client_info": {
+          "package_name": "com.example.newzify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "987741284303-4vqep82hqgrmve7hvha0deoso1tk24gr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-1kUybtSPQa9sKjUqvM4yUeMQDBYJ2PY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "987741284303-4vqep82hqgrmve7hvha0deoso1tk24gr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

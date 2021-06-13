@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -21,10 +23,8 @@ import com.google.android.material.snackbar.Snackbar
 
 
 
-class NewsRecyclerAdapter(private val context: Context, private val listener: OnNewsClick) :
+class NewsRecyclerAdapter(private val context: Context, private val articles: List<Article>) :
     RecyclerView.Adapter<NewsRecyclerAdapter.NewsViewHolder>() {
-
-     var arti_cles : List<Article> = emptyList()
 
     //  , val sources : List<Source>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -35,7 +35,7 @@ class NewsRecyclerAdapter(private val context: Context, private val listener: On
     }
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-        val article = arti_cles[position]
+        val article = articles[position]
         //    val source = sources[position]
         if(!TextUtils.isEmpty(article.author)) {
             holder.autherText.text = article.author
@@ -44,56 +44,38 @@ class NewsRecyclerAdapter(private val context: Context, private val listener: On
         }
         holder.description.text = article.description
         holder.title.text = article.title
-        Glide.with(context).load(article.urlToImage).fallback(ColorDrawable(Color.rgb(250,250,250))).into(holder.newsImage)
+        Glide.with(context).load(article.urlToImage)
+            .fallback(ColorDrawable(Color.rgb(250,250,250))).into(holder.newsImage)
 
         holder.itemView.setOnLongClickListener {
             val publishTime: String = article.publishedAt
             val date = publishTime.slice(0..9)
             val time = publishTime.slice(11..18)
-            val snackbar: Snackbar =
-                Snackbar.make(it, "Published on $date at $time", Snackbar.LENGTH_SHORT)
-            snackbar.setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE)
+            val snackbar: Snackbar = Snackbar.make(it, "Published on $date at $time", Snackbar.LENGTH_SHORT)
+            snackbar.animationMode = Snackbar.ANIMATION_MODE_SLIDE
             snackbar.show()
-//          Log.d("batao",date.toString())
             return@setOnLongClickListener true
+        }
+
+        holder.itemView.setOnClickListener{
+            val bundle = Bundle()
+            bundle.putString("url",article.url)
+            it.findNavController().navigate(R.id.webViewFragment,bundle)
         }
 
     }
 
     override fun getItemCount(): Int {
-        return arti_cles.size
+        return articles.size
     }
 
 
-   inner class NewsViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        val newsImage = itemView.findViewById<ImageView>(R.id.newsImage)
-        val autherText = itemView.findViewById<TextView>(R.id.authorText)
-        val description = itemView.findViewById<TextView>(R.id.description)
-        val title = itemView.findViewById<TextView>(R.id.newsTitle)
-
-        init {
-            itemView.setOnClickListener(this)
-          //  Log.d("batao","hii3")
-        }
-
-        override fun onClick(p0: View?) {
-            val position = adapterPosition
-            val article_inst = arti_cles[position]
-         //   Log.d("batao","hii1")
-            listener.onItemClick(article_inst, position)
-        }
-    }
-
-    interface OnNewsClick{
-
-        fun onItemClick(article:Article , position: Int)
+   inner class NewsViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView){
+        val newsImage = itemView.findViewById<ImageView>(R.id.newsImage)!!
+        val autherText = itemView.findViewById<TextView>(R.id.authorText)!!
+        val description = itemView.findViewById<TextView>(R.id.description)!!
+        val title = itemView.findViewById<TextView>(R.id.newsTitle)!!
 
     }
-
-    fun setNews(newss: List<Article>) {
-        this.arti_cles = newss
-        notifyDataSetChanged()
-    }
-
 
 }

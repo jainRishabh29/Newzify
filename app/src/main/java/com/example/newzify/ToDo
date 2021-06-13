@@ -1,0 +1,13 @@
+1   data binding in whole project + recycler View                                                           done
+2   view binding in recycler View                                                                           done
+3   Sign up and login screen( Email, password, confirm password, Age, phoneNumber, address, Bio)            done
+       (Min char length = 8, at least one uppercase char, must have at least one numeric digit.)            done
+004   retrofit local caching
+5   user information in drop list
+6   licence activity
+7   navigation component in whole project
+008   like and share button in news card
+9   progress bar color change                                                                               done
+0010  when click on app name dashboard should visible
+11  logout
+12  animation in navigation

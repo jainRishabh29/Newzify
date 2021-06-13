@@ -13,7 +13,8 @@ class MainFragmentViewModel : ViewModel() {
 
     init {
         Log.d("flow", "init")
-        this.news = NewsRepository.getServicesApiCall()
+        NewsRepository.getServicesApiCall()
+        this.news = NewsRepository.news_
    }
 
 //    fun getNews() : LiveData<News> {

@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'com.google.gms.google-services'
+    id("com.google.android.gms.oss-licenses-plugin")
 }
 
 android {
@@ -12,8 +14,14 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        multiDexEnabled = true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        viewBinding = true
+        dataBinding true
     }
 
     buildTypes {
@@ -45,6 +53,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    implementation("androidx.multidex:multidex:2.0.1")
+
     //moshi
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
     //retrofit
@@ -65,6 +75,12 @@ dependencies {
     //noinspection GradleDependency
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
+    //FireBase
+    implementation platform('com.google.firebase:firebase-bom:28.1.0')
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-database-ktx'
+
+    implementation("com.google.android.gms:play-services-oss-licenses:17.0.0")
 
 
 }

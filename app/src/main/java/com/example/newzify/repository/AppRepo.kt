@@ -8,6 +8,7 @@ import androidx.navigation.Navigation
 import com.example.newzify.dataClass.User
 import com.example.newzify.fragments.MainFragment
 import com.example.newzify.fragments.SignUpFragment
+import com.example.newzify.util.log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -22,15 +23,15 @@ object AppRepo {
 //    val isAlreadyMember = MutableLiveData<Boolean>()
     private val isLoggedOut: MutableLiveData<Boolean> = MutableLiveData()
 
-    init {
-        if (firebase.currentUser != null) {
-            userMutableData.value = firebase.currentUser
-            isLoggedOut.value = false
-        }else{
-            isLoggedOut.value = true
-            userMutableData.value = null
-        }
-    }
+//    init {
+//        if (firebase.currentUser != null) {
+//            userMutableData.value = firebase.currentUser
+//            isLoggedOut.value = false
+//        }else{
+//            isLoggedOut.value = true
+//            userMutableData.value = null
+//        }
+//    }
 
     fun registerUser(
         email: String, password: String, age: String,
@@ -83,15 +84,17 @@ object AppRepo {
         }
     }
 
-    fun loggedOut() {
-        firebase.signOut()
-        userMutableData.value = null
-        isLoggedOut.value = true
-    }
-
+//    fun loggedOut() {
+//        firebase.signOut()
+//      //  NewsRepository.clearDataNews()
+//        log("appRepo logout")
+//        userMutableData.value = null
+//        isLoggedOut.value = true
+//    }
 
     fun getUserMutableLiveData(): MutableLiveData<FirebaseUser> {
-        Log.d("check", "appRepo Usermutable ${userMutableData.value}")
+        log("appRepo Usermutable ${userMutableData.value}")
+//        Log.d("check", "appRepo Usermutable ${userMutableData.value}")
         return userMutableData
     }
 
@@ -99,7 +102,7 @@ object AppRepo {
 //        return isAlreadyMember
 //    }
 
-    fun getIsLoggedOut(): MutableLiveData<Boolean> {
-        return isLoggedOut
-    }
+//    fun getIsLoggedOut(): MutableLiveData<Boolean> {
+//        return isLoggedOut
+//    }
 }

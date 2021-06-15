@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.newzify.R
 import com.example.newzify.dataClass.User
 import com.example.newzify.databinding.FragmentProfileBinding
+import com.example.newzify.viewModel.LogInSignUpViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
@@ -19,6 +21,7 @@ class ProfileFragment : Fragment() {
     private val firebase = FirebaseAuth.getInstance()
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
+    private lateinit var viewModel : LogInSignUpViewModel
     private lateinit var rootnode: FirebaseDatabase
     private lateinit var reference: DatabaseReference
     private lateinit var user: FirebaseUser
@@ -31,6 +34,7 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val view = binding.root
+        viewModel = ViewModelProvider(this).get(LogInSignUpViewModel::class.java)
 
 //        rootnode = FirebaseDatabase.getInstance("https://newzify-bed8a-default-rtdb.asia-southeast1.firebasedatabase.app/")
 //        user = FirebaseAuth.getInstance().currentUser!!
@@ -55,10 +59,11 @@ class ProfileFragment : Fragment() {
 //        }
 
 
-        binding.logOutButton.setOnClickListener {
-            firebase.signOut()
-            findNavController().navigate(R.id.action_profileFragment_to_logInFragment)
-        }
+//        binding.logOutButton.setOnClickListener {
+////            firebase.signOut()
+//            viewModel.logOutUser()
+//            findNavController().navigate(R.id.action_profileFragment_to_logInFragment)
+//        }
         return view
     }
 }

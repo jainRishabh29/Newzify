@@ -5,12 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.newzify.dataClass.User
 import com.example.newzify.repository.AppRepo
+import com.example.newzify.util.log
 import com.google.firebase.auth.FirebaseUser
 
 class LogInSignUpViewModel : ViewModel() {
 
     var user: MutableLiveData<FirebaseUser> = AppRepo.getUserMutableLiveData()
-    var isLoggedOut : MutableLiveData<Boolean> = AppRepo.getIsLoggedOut()
+ //   var isLoggedOut : MutableLiveData<Boolean> = AppRepo.getIsLoggedOut()
 
     fun registerUser(
         email: String, password: String, age: String,
@@ -26,10 +27,16 @@ class LogInSignUpViewModel : ViewModel() {
     }
 
     fun loginUser( email: String, password: String) {
+        log("viewmodel loginUser")
         AppRepo.logInUser(email, password)
     }
 
-    fun getIsLoggedOut(): MutableLiveData<Boolean> {
-        return isLoggedOut
-    }
+//    fun getIsLoggedOut(): MutableLiveData<Boolean> {
+//        return isLoggedOut
+//    }
+
+//    fun logOutUser(){
+//        log("viewmodel logOutUser")
+//        AppRepo.loggedOut()
+//    }
 }

@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.newzify.R
 import com.example.newzify.databinding.LogInFragmentBinding
+import com.example.newzify.util.log
 import com.example.newzify.viewModel.LogInSignUpViewModel
 import com.example.newzify.viewModel.MainFragmentViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -65,9 +66,15 @@ class LogInFragment : Fragment() {
                 viewModel.loginUser(email,pass)
                 viewModel.getUser().observe(viewLifecycleOwner ,  {
                     if (it != null){
-                        findNavController().navigate(R.id.action_logInFragment_to_mainFragment)
+                        Log.d("loginFragmnet","${it.email}")
+                        log("${it.email}")
+                        findNavController().navigate(R.id.mainFragment)
+                        findNavController().popBackStack()
+//                        findNavController().popBackStack(R.id.logInFragment,true)
                     }
                     else{
+                        findNavController().navigate(R.id.logInFragment)
+                        findNavController().popBackStack()
                         Toast.makeText(context,"Wrong Credentials",Toast.LENGTH_SHORT).show()
                     }
                 })

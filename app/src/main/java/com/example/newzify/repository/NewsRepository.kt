@@ -31,4 +31,8 @@ object NewsRepository {
         })
         return news_
     }
+
+//    fun clearDataNews(){
+//        news_.value = null
+//    }
 }

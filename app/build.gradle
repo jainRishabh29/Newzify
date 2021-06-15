@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id("com.google.android.gms.oss-licenses-plugin")
 }
 
 android {
@@ -71,5 +72,11 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
 
+    //FireBase
+    implementation platform('com.google.firebase:firebase-bom:28.1.0')
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-database-ktx'
+
+    implementation("com.google.android.gms:play-services-oss-licenses:17.0.0")
 
 }

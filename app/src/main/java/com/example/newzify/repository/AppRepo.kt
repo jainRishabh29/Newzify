@@ -8,7 +8,6 @@ import androidx.navigation.Navigation
 import com.example.newzify.dataClass.User
 import com.example.newzify.fragments.MainFragment
 import com.example.newzify.fragments.SignUpFragment
-import com.example.newzify.util.log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -93,7 +92,6 @@ object AppRepo {
 //    }
 
     fun getUserMutableLiveData(): MutableLiveData<FirebaseUser> {
-        log("appRepo Usermutable ${userMutableData.value}")
 //        Log.d("check", "appRepo Usermutable ${userMutableData.value}")
         return userMutableData
     }

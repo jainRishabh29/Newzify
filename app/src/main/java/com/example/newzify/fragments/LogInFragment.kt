@@ -12,8 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.newzify.R
 import com.example.newzify.databinding.LogInFragmentBinding
-import com.example.newzify.util.log
-import com.example.newzify.viewModel.LogInSignUpViewModel
 import com.example.newzify.viewModel.MainFragmentViewModel
 import com.google.firebase.auth.FirebaseAuth
 
@@ -21,7 +19,6 @@ class LogInFragment : Fragment() {
 
     private val firebase = FirebaseAuth.getInstance()
     private var _binding: LogInFragmentBinding? = null
-    private lateinit var viewModel : LogInSignUpViewModel
     private val binding get() = _binding!!
     private var validate: Boolean = true
 
@@ -33,7 +30,6 @@ class LogInFragment : Fragment() {
         // test the git
         _binding = LogInFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
-        viewModel = ViewModelProvider(this).get(LogInSignUpViewModel::class.java)
 
 //        viewModel.getIsLoggedOut().observe(viewLifecycleOwner ,{
 //            if (!it){
@@ -64,21 +60,6 @@ class LogInFragment : Fragment() {
             }
 
             if (validate) {
-                viewModel.loginUser(email,pass)
-                viewModel.getUser().observe(viewLifecycleOwner ,  {
-                    if (it != null){
-                        Log.d("loginFragmnet","${it.email}")
-                        log("${it.email}")
-                        findNavController().navigate(R.id.mainFragment)
-                        findNavController().popBackStack()
-//                        findNavController().popBackStack(R.id.logInFragment,true)
-                    }
-                    else{
-                        findNavController().navigate(R.id.logInFragment)
-                        findNavController().popBackStack()
-                        Toast.makeText(context,"Wrong Credentials",Toast.LENGTH_SHORT).show()
-                    }
-                })
 
             }
 

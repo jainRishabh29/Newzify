@@ -23,6 +23,8 @@ class MainFragment : Fragment(), NewsRecyclerAdapter.OnNewsClick {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        // testing the git
         val view:View = inflater.inflate(R.layout.fragment_main, container, false)
         val progressbar:ProgressBar = view.findViewById(R.id.progressBar)
 

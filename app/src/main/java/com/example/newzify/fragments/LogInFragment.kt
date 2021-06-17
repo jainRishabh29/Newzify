@@ -36,18 +36,24 @@ class LogInFragment : Fragment() {
             findNavController().navigate(R.id.action_logInFragment_to_signUpFragment)
         }
         binding.logInButton.setOnClickListener {
+            binding.logInButton.visibility = View.GONE
+            binding.circularPBar.visibility = View.VISIBLE
             val email = binding.emailInput.text.toString().trim()
             val pass = binding.paswordInput.text.toString()
             Log.d("check", "$email and $pass")
             validate = true
 
             if (email.isEmpty()) {
+                binding.logInButton.visibility = View.VISIBLE
+                binding.circularPBar.visibility = View.GONE
                 binding.emailInput.error = "Email is Mandatory"
                 binding.emailInput.requestFocus()
                 validate = false
             } else {
                 if (pass.isEmpty()) {
                     validate = false
+                    binding.logInButton.visibility = View.VISIBLE
+                    binding.circularPBar.visibility = View.GONE
                     //binding.tvMaterial.endIconMode = END_ICON_NONE
                   //  binding.paswordInput.error = "Password is Mandatory"
                     binding.paswordInput.setError("Password is Mandatory",null)
@@ -58,8 +64,12 @@ class LogInFragment : Fragment() {
             if (validate) {
                 firebase.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
+                        binding.logInButton.visibility = View.VISIBLE
+                        binding.circularPBar.visibility = View.GONE
                         findNavController().navigate(R.id.action_logInFragment_to_mainFragment)
                     } else {
+                        binding.logInButton.visibility = View.VISIBLE
+                        binding.circularPBar.visibility = View.GONE
                         Toast.makeText(context, "Wrong Credentials", Toast.LENGTH_SHORT).show()
                     }
                 }

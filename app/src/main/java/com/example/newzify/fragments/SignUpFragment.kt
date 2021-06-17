@@ -41,6 +41,10 @@ class SignUpFragment : Fragment() {
         }
 
         binding.signUpButton.setOnClickListener {
+
+            binding.signUpButton.visibility = View.GONE
+            binding.circularProgBar.visibility = View.VISIBLE
+
             val email = binding.emailInput.text.toString().trim()
             val pass = binding.paswordInput.text.toString()
             val conformPass = binding.confirmPasswordInput.text.toString()
@@ -51,22 +55,30 @@ class SignUpFragment : Fragment() {
             validate = true
 
             if (email.isEmpty()) {
+                binding.signUpButton.visibility = View.VISIBLE
+                binding.circularProgBar.visibility = View.GONE
                 binding.emailInput.error = "Email is Mandatory"
                 binding.emailInput.requestFocus()
                 validate = false
             } else {
                 if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     validate = false
+                    binding.signUpButton.visibility = View.VISIBLE
+                    binding.circularProgBar.visibility = View.GONE
                     binding.emailInput.error = "Please enter valid email"
                     binding.emailInput.requestFocus()
                 } else {
                     if (pass.isEmpty()) {
                         validate = false
-                        binding.paswordInput.error = "Password is Mandatory"
+                        binding.signUpButton.visibility = View.VISIBLE
+                        binding.circularProgBar.visibility = View.GONE
+                        binding.paswordInput.setError("Password is Mandatory",null)
                         binding.paswordInput.requestFocus()
                     } else {
                         if (!PASSWORD_PATTERN.matcher(pass).matches()) {
                             validate = false
+                            binding.signUpButton.visibility = View.VISIBLE
+                            binding.circularProgBar.visibility = View.GONE
                             binding.paswordInput.requestFocus()
                             Toast.makeText(
                                 this.context,
@@ -76,11 +88,15 @@ class SignUpFragment : Fragment() {
                         } else {
                             if (conformPass.isEmpty()) {
                                 validate = false
+                                binding.signUpButton.visibility = View.VISIBLE
+                                binding.circularProgBar.visibility = View.GONE
                                 binding.confirmPasswordInput.error = "Field is Mandatory"
                                 binding.confirmPasswordInput.requestFocus()
                             } else {
                                 if (pass.compareTo(conformPass) != 0) {
                                     validate = false
+                                    binding.signUpButton.visibility = View.VISIBLE
+                                    binding.circularProgBar.visibility = View.GONE
                                     binding.confirmPasswordInput.requestFocus()
                                     Toast.makeText(
                                         this.context,
@@ -96,13 +112,18 @@ class SignUpFragment : Fragment() {
             if (phone.isNotEmpty()) {
                 if (!Patterns.PHONE.matcher(phone).matches() || phone.length != 10) {
                     validate = false
+                    binding.signUpButton.visibility = View.VISIBLE
+                    binding.circularProgBar.visibility = View.GONE
                     binding.phoneNumberInput.error = "Please enter valid phone number"
                     binding.phoneNumberInput.requestFocus()
                 }
             }
             if (age.isNotEmpty()) {
                 if (age.toInt() in 1..100) {
+                }else{
                     validate = false
+                    binding.signUpButton.visibility = View.VISIBLE
+                    binding.circularProgBar.visibility = View.GONE
                     binding.ageInput.error = "Please enter valid age"
                     binding.ageInput.requestFocus()
                 }
@@ -117,18 +138,25 @@ class SignUpFragment : Fragment() {
 //                            val userId = ref.push().key
                             val userId = FirebaseAuth.getInstance().currentUser!!.uid
                             val user = User(email, pass, age, phone, address, bio)
-                            Log.d("firebase", " kya y id h " + userId.toString())
                             if (userId != null) {
                                 ref.child(userId)
                                     .setValue(user).addOnCompleteListener {
                                         if (it.isSuccessful) {
+                                            binding.signUpButton.visibility = View.VISIBLE
+                                            binding.circularProgBar.visibility = View.GONE
                                             findNavController().navigate(R.id.action_signUpFragment_to_mainFragment)
                                         } else {
+                                            binding.signUpButton.visibility = View.VISIBLE
+                                            binding.circularProgBar.visibility = View.GONE
+                                            Toast.makeText(context,"Sign Up fail",Toast.LENGTH_SHORT).show()
                                             Log.d("firebase", "LoginrepoUserfail")
                                         }
                                     }
                             }
                         } else {
+                            binding.signUpButton.visibility = View.VISIBLE
+                            binding.circularProgBar.visibility = View.GONE
+                            Toast.makeText(context,"Already have an account please Log In",Toast.LENGTH_SHORT).show()
                             Log.d("firebase", "Loginrepofail")
                         }
                     }

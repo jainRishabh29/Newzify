@@ -2,41 +2,35 @@ package com.example.newzify.fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.newzify.R
 import com.example.newzify.databinding.LogInFragmentBinding
-import com.example.newzify.viewModel.MainFragmentViewModel
+import com.example.newzify.view.MainActivity
+import com.google.android.material.textfield.TextInputLayout.END_ICON_NONE
+import com.google.android.material.textfield.TextInputLayout.END_ICON_PASSWORD_TOGGLE
 import com.google.firebase.auth.FirebaseAuth
+
 
 class LogInFragment : Fragment() {
 
-    private val firebase = FirebaseAuth.getInstance()
     private var _binding: LogInFragmentBinding? = null
     private val binding get() = _binding!!
     private var validate: Boolean = true
+    private val firebase = FirebaseAuth.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        // test the git
         _binding = LogInFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
-
-//        viewModel.getIsLoggedOut().observe(viewLifecycleOwner ,{
-//            if (!it){
-//                findNavController().navigate(R.id.action_logInFragment_to_mainFragment)
-//            }
-//        })
-
+          setHasOptionsMenu(false)
         binding.SignUpText.setOnClickListener {
             //go to logIn fragment
             findNavController().navigate(R.id.action_logInFragment_to_signUpFragment)
@@ -54,17 +48,31 @@ class LogInFragment : Fragment() {
             } else {
                 if (pass.isEmpty()) {
                     validate = false
-                    binding.paswordInput.error = "Password is Mandatory"
+                    //binding.tvMaterial.endIconMode = END_ICON_NONE
+                  //  binding.paswordInput.error = "Password is Mandatory"
+                    binding.paswordInput.setError("Password is Mandatory",null)
                     binding.paswordInput.requestFocus()
                 }
             }
 
             if (validate) {
-
+                firebase.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        findNavController().navigate(R.id.action_logInFragment_to_mainFragment)
+                    } else {
+                        Toast.makeText(context, "Wrong Credentials", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
 
         }
         return view
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if(firebase.currentUser != null){
+            findNavController().navigate(R.id.action_logInFragment_to_mainFragment)
+        }
+    }
 }

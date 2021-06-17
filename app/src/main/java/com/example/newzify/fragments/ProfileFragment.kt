@@ -1,10 +1,12 @@
 package com.example.newzify.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.newzify.R
@@ -33,34 +35,28 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val view = binding.root
 
-//        rootnode = FirebaseDatabase.getInstance("https://newzify-bed8a-default-rtdb.asia-southeast1.firebasedatabase.app/")
-//        user = FirebaseAuth.getInstance().currentUser!!
-//        Log.d("refer", user.toString())
-//        reference = rootnode.getReference("Users").child(u.toString())
-//        Log.d("access", "batao ${u.toString()}")
-//
-//        reference.get().addOnSuccessListener {
-//            val userEmail : String = it.child("email").value.toString()
-//            val userAge : String = it.child("age").value.toString()
-//            val userAddress : String = it.child("address").value.toString()
-//            val userPhone : String = it.child("phone").value.toString()
-//            val userBio : String = it.child("bio").value.toString()
-//
-//            binding.emailText.text = userEmail
-//            binding.ageText.text = userAge
-//            binding.addressText.text = userAddress
-//            binding.phoneText.text = userPhone
-//            binding.bioText.text = userBio
-//
-//            Log.d("snapshot",it.value.toString())
-//        }
+        rootnode = FirebaseDatabase.getInstance("https://newzify-bed8a-default-rtdb.asia-southeast1.firebasedatabase.app/")
+        user = FirebaseAuth.getInstance().currentUser!!
+        reference = rootnode.getReference("Users").child(user.uid)
+        Log.d("access", "batao ${user.uid}")
 
+        reference.get().addOnSuccessListener {
+            val userEmail : String = it.child("email").value.toString()
+            val userAge : String = it.child("age").value.toString()
+            val userAddress : String = it.child("user_address").value.toString()
+            val userPhone : String = it.child("phoneNumber").value.toString()
+            val userBio : String = it.child("bio").value.toString()
+            binding.progressBar.visibility = View.GONE
 
-//        binding.logOutButton.setOnClickListener {
-////            firebase.signOut()
-//            viewModel.logOutUser()
-//            findNavController().navigate(R.id.action_profileFragment_to_logInFragment)
-//        }
+            binding.emailText.text = userEmail
+            binding.ageText.text = userAge
+            binding.addressText.text = userAddress
+            binding.phoneText.text = userPhone
+            binding.bioText.text = userBio
+
+            Log.d("snapshot",it.value.toString())
+        }
+
         return view
     }
 }

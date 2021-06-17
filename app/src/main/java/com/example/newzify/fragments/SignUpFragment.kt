@@ -8,13 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.newzify.R
 import com.example.newzify.dataClass.User
 import com.example.newzify.databinding.SignUpFragmentBinding
-import com.example.newzify.repository.AppRepo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import java.util.regex.Pattern
@@ -60,9 +57,8 @@ class SignUpFragment : Fragment() {
             } else {
                 if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     validate = false
+                    binding.emailInput.error = "Please enter valid email"
                     binding.emailInput.requestFocus()
-                    Toast.makeText(this.context, "Please enter valid email", Toast.LENGTH_LONG)
-                        .show()
                 } else {
                     if (pass.isEmpty()) {
                         validate = false
@@ -97,21 +93,49 @@ class SignUpFragment : Fragment() {
                     }
                 }
             }
-            if (!Patterns.PHONE.matcher(phone)
-                    .matches() && !phone.isEmpty() && phone.length != 10
-            ) {
-                validate = false
-                Toast.makeText(this.context, "Please enter valid phone number", Toast.LENGTH_LONG)
-                    .show()
+            if (phone.isNotEmpty()) {
+                if (!Patterns.PHONE.matcher(phone).matches() || phone.length != 10) {
+                    validate = false
+                    binding.phoneNumberInput.error = "Please enter valid phone number"
+                    binding.phoneNumberInput.requestFocus()
+                }
             }
-
-
+            if (age.isNotEmpty()) {
+                if (age.toInt() in 1..100) {
+                    validate = false
+                    binding.ageInput.error = "Please enter valid age"
+                    binding.ageInput.requestFocus()
+                }
+            }
             if (validate) {
+                firebase.createUserWithEmailAndPassword(email, pass)
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            val ref = FirebaseDatabase
+                                .getInstance("https://newzify-bed8a-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                                .getReference("Users")
+//                            val userId = ref.push().key
+                            val userId = FirebaseAuth.getInstance().currentUser!!.uid
+                            val user = User(email, pass, age, phone, address, bio)
+                            Log.d("firebase", " kya y id h " + userId.toString())
+                            if (userId != null) {
+                                ref.child(userId)
+                                    .setValue(user).addOnCompleteListener {
+                                        if (it.isSuccessful) {
+                                            findNavController().navigate(R.id.action_signUpFragment_to_mainFragment)
+                                        } else {
+                                            Log.d("firebase", "LoginrepoUserfail")
+                                        }
+                                    }
+                            }
+                        } else {
+                            Log.d("firebase", "Loginrepofail")
+                        }
+                    }
             }
 
         }
 
         return view
     }
-
 }

@@ -1,11 +1,18 @@
 package com.example.newzify.fragments
 
+import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -40,8 +47,73 @@ class SignUpFragment : Fragment() {
             findNavController().navigate(R.id.action_signUpFragment_to_logInFragment)
         }
 
-        binding.signUpButton.setOnClickListener {
+        binding.emailInput.addTextChangedListener(object : TextWatcher {
 
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                if (!Patterns.EMAIL_ADDRESS.matcher(s).matches()) {
+                    binding.emailInputLay.helperText =
+                        "Please enter valid email"
+                } else {
+                    binding.emailInputLay.helperText = ""
+                }
+            }
+        })
+
+        binding.paswordInput.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                if (!PASSWORD_PATTERN.matcher(s).matches()) {
+                    binding.passLay.helperText =
+                        "Password must contain atleast a capital letter, a digit and should be of length 8-20"
+                } else {
+                    binding.passLay.helperText = ""
+                }
+            }
+        })
+
+        binding.confirmPasswordInput.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                if (!(binding.paswordInput.text.toString().compareTo(s.toString()) == 0)) {
+                    binding.cnfrmPassLay.helperText = "Passwords doesn't match!"
+                } else if (binding.confirmPasswordInput.toString().isNotEmpty()) {
+                    binding.cnfrmPassLay.helperText = ""
+                }
+            }
+        })
+
+        binding.signUpButton.setOnClickListener {
+            closeKeyboard()
             binding.signUpButton.visibility = View.GONE
             binding.circularProgBar.visibility = View.VISIBLE
 
@@ -72,7 +144,7 @@ class SignUpFragment : Fragment() {
                         validate = false
                         binding.signUpButton.visibility = View.VISIBLE
                         binding.circularProgBar.visibility = View.GONE
-                        binding.paswordInput.setError("Password is Mandatory",null)
+                        binding.paswordInput.setError("Password is Mandatory", null)
                         binding.paswordInput.requestFocus()
                     } else {
                         if (!PASSWORD_PATTERN.matcher(pass).matches()) {
@@ -90,7 +162,7 @@ class SignUpFragment : Fragment() {
                                 validate = false
                                 binding.signUpButton.visibility = View.VISIBLE
                                 binding.circularProgBar.visibility = View.GONE
-                                binding.confirmPasswordInput.error = "Field is Mandatory"
+                                binding.paswordInput.setError("Conform Password is Mandatory", null)
                                 binding.confirmPasswordInput.requestFocus()
                             } else {
                                 if (pass.compareTo(conformPass) != 0) {
@@ -120,7 +192,7 @@ class SignUpFragment : Fragment() {
             }
             if (age.isNotEmpty()) {
                 if (age.toInt() in 1..100) {
-                }else{
+                } else {
                     validate = false
                     binding.signUpButton.visibility = View.VISIBLE
                     binding.circularProgBar.visibility = View.GONE
@@ -148,7 +220,11 @@ class SignUpFragment : Fragment() {
                                         } else {
                                             binding.signUpButton.visibility = View.VISIBLE
                                             binding.circularProgBar.visibility = View.GONE
-                                            Toast.makeText(context,"Sign Up fail",Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(
+                                                context,
+                                                "Sign Up fail",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                             Log.d("firebase", "LoginrepoUserfail")
                                         }
                                     }
@@ -156,7 +232,11 @@ class SignUpFragment : Fragment() {
                         } else {
                             binding.signUpButton.visibility = View.VISIBLE
                             binding.circularProgBar.visibility = View.GONE
-                            Toast.makeText(context,"Already have an account please Log In",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                "Already have an account please Log In",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             Log.d("firebase", "Loginrepofail")
                         }
                     }
@@ -165,5 +245,17 @@ class SignUpFragment : Fragment() {
         }
 
         return view
+    }
+
+    fun closeKeyboard() {
+        val view = requireActivity().currentFocus
+        val inputManager: InputMethodManager =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (view != null) {
+            inputManager.hideSoftInputFromWindow(
+                view.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
+        }
     }
 }

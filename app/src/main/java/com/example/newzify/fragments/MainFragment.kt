@@ -16,6 +16,7 @@ import com.example.newzify.viewModel.MainFragmentViewModel
 import com.example.newzify.adapter.NewsRecyclerAdapter
 import com.example.newzify.R
 import com.example.newzify.dataClass.Article
+import com.example.newzify.repository.NewsRepository
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 
 class MainFragment : Fragment(), NewsRecyclerAdapter.OnNewsClick {

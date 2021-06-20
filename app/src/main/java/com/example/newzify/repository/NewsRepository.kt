@@ -1,19 +1,20 @@
 package com.example.newzify.repository
 
+import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.newzify.NewsService
+import com.example.newzify.retrofit.NewsService
 import com.example.newzify.dataClass.News
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-object NewsRepository {
-
+class NewsRepository constructor(val application: Application) {
     val news_ = MutableLiveData<News>()
 
     fun getServicesApiCall(): MutableLiveData<News> {
-        val news = NewsService.newsInstance.getHeadlines("in", 1)
+        val news = NewsService.getClient(application).getHeadlines("in", 1)
         news.enqueue(object : Callback<News> {
             override fun onResponse(call: Call<News>, response: Response<News>) {
                 val news = response.body()

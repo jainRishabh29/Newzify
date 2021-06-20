@@ -1,15 +1,9 @@
 package com.example.newzify.view
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
 import com.example.newzify.R
-import com.example.newzify.fragments.AboutFragment
-import com.example.newzify.fragments.LicenseFragment
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {

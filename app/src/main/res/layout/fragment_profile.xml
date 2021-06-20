@@ -27,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
+            android:layout_marginBottom="12dp"
             android:padding="10dp">
 
             <TextView
@@ -34,9 +35,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:textColor="#cd334c"
+                android:fontFamily="@font/lora_bold"
                 android:text="User Details"
-                android:textSize="28sp" />
+                android:textAllCaps="true"
+                android:textColor="#fc405e"
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
@@ -44,10 +48,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20sp"
-            android:textColor="#fc405e"
-            
+            android:fontFamily="@font/open_sans"
             android:text="Email:"
-            android:textSize="20sp" />
+            android:textColor="#fc405e"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/email_text"
@@ -55,6 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20sp"
             android:paddingTop="4dp"
+            android:textStyle="italic"
             android:paddingBottom="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
@@ -65,8 +71,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20sp"
+            android:fontFamily="@font/open_sans"
             android:textColor="#fc405e"
-            
+            android:textStyle="bold"
             android:text="Contact:"
             android:textSize="20sp" />
 
@@ -77,6 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20sp"
             android:paddingTop="4dp"
+            android:textStyle="italic"
             android:paddingBottom="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
@@ -87,6 +95,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20sp"
+            android:fontFamily="@font/open_sans"
+            android:textStyle="bold"
             android:textColor="#fc405e"
             android:text="Age:"
             android:textSize="20sp" />
@@ -98,6 +108,7 @@
             android:layout_marginLeft="20sp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
+            android:textStyle="italic"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:textColor="#fc405e"
@@ -109,7 +120,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20sp"
             android:textColor="#fc405e"
-            
+            android:fontFamily="@font/open_sans"
+            android:textStyle="bold"
             android:text="Address:"
             android:textSize="20sp" />
 
@@ -120,6 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20sp"
             android:paddingTop="4dp"
+            android:textStyle="italic"
             android:paddingBottom="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
@@ -130,8 +143,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20sp"
+            android:fontFamily="@font/open_sans"
             android:textColor="#fc405e"
-            
+            android:textStyle="bold"
             android:text="Bio:"
             android:textSize="20sp" />
 
@@ -142,6 +156,7 @@
             android:layout_marginLeft="20sp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
+            android:textStyle="italic"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:textColor="#fc405e"

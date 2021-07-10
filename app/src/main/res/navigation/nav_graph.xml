@@ -89,4 +89,9 @@
             app:popUpTo="@id/signOutFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.example.newzify.fragments.WebViewFragment"
+        android:label="fragment_web_view"
+        tools:layout="@layout/fragment_web_view" />
 </navigation>

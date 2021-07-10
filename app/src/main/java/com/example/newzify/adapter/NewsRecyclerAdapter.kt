@@ -4,27 +4,26 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.newzify.R
 import com.example.newzify.dataClass.Article
-import com.example.newzify.dataClass.News
-
 import com.google.android.material.snackbar.Snackbar
 
 
-
-class NewsRecyclerAdapter(private val context: Context, private val listener: OnNewsClick) :
+class NewsRecyclerAdapter(private val context: Context) :
     RecyclerView.Adapter<NewsRecyclerAdapter.NewsViewHolder>() {
 
-     var arti_cles : List<Article> = emptyList()
+    var arti_cles: ArrayList<Article> = ArrayList()
 
     //  , val sources : List<Source>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -33,18 +32,27 @@ class NewsRecyclerAdapter(private val context: Context, private val listener: On
         return NewsViewHolder(view)
 
     }
+
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val article = arti_cles[position]
         //    val source = sources[position]
-        if(!TextUtils.isEmpty(article.author)) {
-            holder.autherText.text = article.author
-        }else {
-            holder.autherText.text = "Unknown Author"
+        if (!TextUtils.isEmpty(article.author)) {
+            holder.authorText.text = article.author
+        } else {
+            holder.authorText.text = "Unknown Author"
         }
+
+        holder.itemView.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("url", article.url)
+            it.findNavController().navigate(R.id.webViewFragment, bundle)
+        }
+
         holder.description.text = article.description
         holder.title.text = article.title
-        Glide.with(context).load(article.urlToImage).fallback(ColorDrawable(Color.rgb(250,250,250))).into(holder.newsImage)
+        Glide.with(context).load(article.urlToImage)
+            .fallback(ColorDrawable(Color.rgb(250, 250, 250))).into(holder.newsImage)
 
         holder.itemView.setOnLongClickListener {
             val publishTime: String = article.publishedAt
@@ -65,35 +73,23 @@ class NewsRecyclerAdapter(private val context: Context, private val listener: On
     }
 
 
-   inner class NewsViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        val newsImage = itemView.findViewById<ImageView>(R.id.newsImage)
-        val autherText = itemView.findViewById<TextView>(R.id.authorText)
-        val description = itemView.findViewById<TextView>(R.id.description)
-        val title = itemView.findViewById<TextView>(R.id.newsTitle)
-
-        init {
-            itemView.setOnClickListener(this)
-          //  Log.d("batao","hii3")
-        }
-
-        override fun onClick(p0: View?) {
-            val position = adapterPosition
-            val article_inst = arti_cles[position]
-         //   Log.d("batao","hii1")
-            listener.onItemClick(article_inst, position)
-        }
-    }
-
-    interface OnNewsClick{
-
-        fun onItemClick(article:Article , position: Int)
+    inner class NewsViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val newsImage : ImageView = itemView.findViewById(R.id.newsImage)
+        val authorText : TextView= itemView.findViewById(R.id.authorText)
+        val description :TextView = itemView.findViewById(R.id.description)
+        val title : TextView = itemView.findViewById(R.id.newsTitle)
 
     }
 
-    fun setNews(newss: List<Article>) {
+    fun setNews(newss: ArrayList<Article>) {
         this.arti_cles = newss
+        Log.d("progress","NRA")
         notifyDataSetChanged()
     }
 
+
+    fun <T> merge(first: List<T>, second: List<T>): List<T> {
+        return first + second
+    }
 
 }

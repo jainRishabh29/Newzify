@@ -78,9 +78,10 @@ class MainFragment : Fragment() {
                 val firstVisibleItemPosition: Int = layoutManager.findFirstVisibleItemPosition()
                 Log.d("pagi", "$visibleItemCount + $totalItemCount + $firstVisibleItemPosition")
 
-                if (visibleItemCount + firstVisibleItemPosition >=
+                if ( isScrolling && visibleItemCount + firstVisibleItemPosition >=
                     totalItemCount && firstVisibleItemPosition >= 0 && currentPage < TOTAL_PAGES + 1
                 ) {
+                    isScrolling = false
                     loadingB.visibility = View.VISIBLE
                     loadData(currentPage)
                 }

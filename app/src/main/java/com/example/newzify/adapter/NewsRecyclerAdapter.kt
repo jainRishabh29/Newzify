@@ -2,6 +2,7 @@ package com.example.newzify.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -11,7 +12,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -24,6 +28,7 @@ class NewsRecyclerAdapter(private val context: Context) :
     RecyclerView.Adapter<NewsRecyclerAdapter.NewsViewHolder>() {
 
     var arti_cles: ArrayList<Article> = ArrayList()
+
 
     //  , val sources : List<Source>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -43,16 +48,35 @@ class NewsRecyclerAdapter(private val context: Context) :
             holder.authorText.text = "Unknown Author"
         }
 
-        holder.itemView.setOnClickListener {
+        if (!TextUtils.isEmpty(article.description)){
+            holder.description.text = article.description
+        }else{
+            holder.description.text = "No Description.."
+        }
+
+        holder.clickableLayout.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("url", article.url)
             it.findNavController().navigate(R.id.webViewFragment, bundle)
         }
 
-        holder.description.text = article.description
+        holder.sharePost.setOnClickListener{
+            val intent = Intent().apply {
+                action = Intent.ACTION_SEND
+              //  putExtra(Intent.EXTRA_STREAM , article.urlToImage)
+                putExtra(Intent.EXTRA_TEXT, "${article.title} \n ")
+                putExtra(Intent.EXTRA_TEXT, article.url)
+                type = "text/plain"
+            }
+            val shareIntent = Intent.createChooser(intent, null)
+            context.startActivity(shareIntent)
+        }
+
         holder.title.text = article.title
+//        Glide.with(context).load(article.urlToImage)
+//            .fallback(ColorDrawable(Color.rgb(250, 250, 250))).into(holder.newsImage)
         Glide.with(context).load(article.urlToImage)
-            .fallback(ColorDrawable(Color.rgb(250, 250, 250))).into(holder.newsImage)
+            .fallback(R.drawable.unnamed).into(holder.newsImage)
 
         holder.itemView.setOnLongClickListener {
             val publishTime: String = article.publishedAt
@@ -75,9 +99,12 @@ class NewsRecyclerAdapter(private val context: Context) :
 
     inner class NewsViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val newsImage : ImageView = itemView.findViewById(R.id.newsImage)
+        val sharePost : ImageView = itemView.findViewById(R.id.sharePost)
+        val savePost : ImageView = itemView.findViewById(R.id.savePost)
         val authorText : TextView= itemView.findViewById(R.id.authorText)
         val description :TextView = itemView.findViewById(R.id.description)
         val title : TextView = itemView.findViewById(R.id.newsTitle)
+        val clickableLayout : LinearLayout = itemView.findViewById(R.id.clickableLayout)
 
     }
 

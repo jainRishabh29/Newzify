@@ -19,6 +19,12 @@
         android:paddingBottom="4dp"
         android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/clickableLayout">
+
         <TextView
             android:id="@+id/newsTitle"
             android:layout_width="match_parent"
@@ -74,6 +80,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description" />
 
+        </LinearLayout>
+
         <RelativeLayout
             android:id="@+id/relativeL"
             android:layout_width="match_parent"
@@ -81,43 +89,52 @@
             android:layout_marginTop="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/authorText">
+            app:layout_constraintTop_toBottomOf="@id/clickableLayout">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="6dp"
-                    android:padding="4dp"
-                    android:src="@drawable/heart"
-                    />
-                <ImageView
+                    android:id="@+id/sharePost"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="12dp"
-                    android:padding="4dp"
-                    android:src="@drawable/chat"
-                    />
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="12dp"
+                    android:layout_alignParentRight="true"
                     android:padding="4dp"
                     android:src="@drawable/share"
                     />
+
+                <ImageView
+                    android:id="@+id/savePost"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:padding="4dp"
+                    android:src="@drawable/bookmark" />
+
+<!--                <ImageView-->
+<!--                    android:layout_width="30dp"-->
+<!--                    android:layout_height="30dp"-->
+<!--                    android:layout_marginLeft="6dp"-->
+<!--                    android:padding="4dp"-->
+<!--                    android:src="@drawable/heart"-->
+<!--                    />-->
+<!--                <ImageView-->
+<!--                    android:layout_width="30dp"-->
+<!--                    android:layout_height="30dp"-->
+<!--                    android:layout_marginLeft="12dp"-->
+<!--                    android:padding="4dp"-->
+<!--                    android:src="@drawable/chat"-->
+<!--                    />-->
+
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:padding="4dp"
-                android:layout_marginRight="12dp"
-                android:src="@drawable/bookmark"
-                android:layout_alignParentRight="true" />
+
 
         </RelativeLayout>
 
